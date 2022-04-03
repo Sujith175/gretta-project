@@ -18,7 +18,7 @@ session_start();
 
  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
   <!-- Brand -->
-  <a class="navbar-brand" href="#">social</a>
+  <a class="navbar-brand" href="#">social networks</a>
 
   <!-- Links -->
   <ul class="navbar-nav ml-auto">

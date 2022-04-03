@@ -4,7 +4,7 @@
 
 
 $id =  $_REQUEST['id']; 
-
+ 
 $sql_register = "SELECT * FROM register where id = '$id'";
 $result_register = mysqli_query($conn, $sql_register);  
 
@@ -95,10 +95,48 @@ if (mysqli_num_rows($result_CheckReq) > 0) {
 </div>
 <div class="col-8">
 
+<form action="javascript:void(0)" id='statusForm'>
+<div class="form-group mt-4" > 
+  <textarea class="form-control" name='status' rows="5" id="status"></textarea>
+  <input type="button" value="Post" id='postStatus'>
+</div>
+
+</form>
+
+<div id="all-status">
+
+</div>
+
 </div>
 </div>
  
 <script>
+
+$('#postStatus').click(function(){
+   $statusTXT= $('#status').val();
+  $.post(`handler/action.php?action=postStatus&status=${$statusTXT}&postTo=<?php echo $_REQUEST['id']?>`,function(res){
+   
+    loadStatus()
+    $('#status').val(' ');
+})
+})
+
+
+$(document).ready(function(){
+  loadStatus()
+})
+
+function loadStatus(){
+  $.post(`handler/action.php?action=fetchAllStatus&uid=<?php echo $id ?>`,function(res){
+ 
+     $('#all-status').html(res)
+  })
+}
+
+
+
+
+
 function sendAction(constant,id){
    $.post(`handler/action.php?action=sendReq&id=${id}`,function(res){
       
@@ -107,6 +145,16 @@ $('#sendReq').hide()
 $('#sendReq').parent().html('Request Send Successfully')
        }
    })
+}
+
+
+
+function loadRelatedComment(pid){
+  $.post(`handler/action.php?action=relatedComments&pid=${pid}`,function(res){
+    console.log(res);
+    $('#displayRelatedComment'+pid).html(res);
+    $('#displayRelatedComment'+pid).prev().hide();
+  })
 }
 </script>
  
